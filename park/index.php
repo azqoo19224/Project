@@ -1,6 +1,6 @@
 <?php 
  session_start();
- 
+ unset($_SESSION["logi"]);
   if(!isset($_SESSION["UserName"]))
        $userName = "Guest";
   else
@@ -79,6 +79,7 @@ function Change() {
 //----------------------------ajax 抓資料-------------------
     function seachID(ID)
 	 {
+	 
 	   
 	    $.ajax({
 	        type:"GET",
@@ -108,7 +109,7 @@ function Change() {
 	 }
 	 
 	     function seachmsg(ID){
-	       
+	     
 	       $.ajax({
 	        type:"GET",
 	        url:"seachmsg.php?ID="+ID,
@@ -321,9 +322,19 @@ function Change() {
      <hr>
     <div><div>
       <A id="ShowMsg" taregt="_self"  href="#Place" onclick="Show()">評論</A>
-      <A id="Msg" taregt="_self"  href="#message.php">留言</A>
+      <A id="Msg" taregt="_self" <?php if(isset($_SESSION["UserName"])){  ?>  
+                                            href="message.php"  
+                                  <?php }else{  ?>
+                                            href="login.php?login=1" 
+                                  <?php } ?>
+                                            >我要評論</A>
+      
+      
+      
+      
+      
     </div>
-    <div id = "ShowM" style = "display:none">
+    <div id = "ShowM" data-theme="a" style = "display:none">
     <p id="msg">123</p>
     <div id="score">
     </div>  

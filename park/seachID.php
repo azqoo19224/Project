@@ -1,6 +1,9 @@
 <?php
 require ("config.php");
+session_start();
 
+
+$_SESSION["id"]=$_GET["ID"];
 
 $searchID ="select id,area, name, summary, address, tel, payex from Park where id = '{$_GET['ID']}'";
 $resultID = mysql_query ( $searchID, $link );

@@ -8,32 +8,20 @@ require ("config.php");
 $insetrMember ="INSERT INTO `Member` (name, password) VALUES ('{$_POST["txtmemberName"]}','{$_POST["txtmemberPassword"]}')";
 
 
-
+//搜尋會員NAME
 $searchMember ="select name,password from Member";
-
 $resultMember = mysql_query ( $searchMember, $link );
 
 
 if (isset($_POST["btnROK"]))
 {
   
-
-
 $resultID = mysql_query ($insetrMember, $link );
 
 		header("Location: login.php");
 		exit();
 
 }
-
-  if (isset($_POST["btnCancel"]))
-{
-	
-		header("Location:login.php");
-		exit();
-
-}
-
 
 
 ?>
@@ -44,15 +32,29 @@ $resultID = mysql_query ($insetrMember, $link );
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
      
-		<script type="text/javascript" src="jquery.js"></script>
+     
+     <link rel="stylesheet"
+	      href="jquery.mobile-1.3.2/jquery.mobile-1.3.2.min.css" />
+      <script src="jquery-1.9.1.min.js"></script>
+      <script src="jquery.mobile-1.3.2/jquery.mobile-1.3.2.min.js"></script>
+      
+     
+     
+		<!--<script type="text/javascript" src="jquery.js"></script>-->
 	  <script type="text/javascript">
 $(document).ready(inputTXT);
-//---------------------------letterArea-------------------------------
+//---------------------------判斷帳號是否重複-------------------------------
 function inputTXT() {
 
 $("#txtmemberName").on("change",function(){
-		memberName()});
 
+if(!$("#txtmemberName").val()){
+  $("#txtN").text("請輸入帳號密碼");
+}else{
+  memberName();
+}
+
+});
 }
 
 	  function memberName(){
@@ -79,31 +81,41 @@ $("#txtmemberName").on("change",function(){
 	  </script>
     </head>
     <body>
+      <div data-role="page">
+	    	<div data-role="content">
       <form id="form1" style="font-family:DFKai-sb;" name="form1" method="post" action="registered.php">
-        <table width="600" border="10" align="center" cellpadding="9" cellspacing="10" bgcolor="#F2F2F2">
+        <table width="800" border="9" align="center" cellpadding="10" cellspacing="10" bgcolor="#f2f2f2">
           <tr>
             <td colspan="2" align="center" bgcolor="#CCCCCC">
-              <font color="#FFFFFF">會員系統 - 註冊</font>
+              <font color="#333333">會員系統 - 註冊</font>
             </td>
           </tr>
           <tr>
-            <td width="80" align="center" valign="baseline">輸入帳號</td>
+            <td width="50" align="center" valign="baseline">輸入帳號</td>
             <td valign="baseline"><input type="text"  size='54'name="txtmemberName" id="txtmemberName" /></td>
-            <td id='txtN'></td>
+
           </tr>
           <tr>
             <td width="80" align="center" valign="baseline">輸入密碼</td>
             <td valign="baseline"><input type="password" size='54' name="txtmemberPassword" id="txtmemberPassword" /></td>
           </tr>
           <tr>
+            <div style = "display:none">
+            <td colspan="2" size='54'id='txtN' align="center" valign="baseline">請輸入帳號及密碼</td>
+            </div>
+          </tr>
+          <tr>
             <td colspan="2" align="center" bgcolor="#CCCCCC">
-              <input type="submit" name="btnROK" id="btnROK" value="登入" />
+             
+              <input type="submit" name="btnROK" id="btnROK" value="登入" onclick="location.href='login.php'" />
               <input type="reset" name="btnReset" id="btnReset" value="重設" />
-              <input type="submit" name="btnCancel" id="btnCancel" value="取消" />
+              <input type="button" name="btnCancel" id="btnCancel" onclick="location.href='login.php'"  value="取消" />
              
             </td>
           </tr>
         </table>
       </form>
+      </div>
+      </div>
       </body>
         </html>

@@ -292,3 +292,5 @@
 [19-Jul-2016 03:31:13 UTC] PHP Warning:  Illegal string offset 'star' in /home/ubuntu/workspace/project/park/seachmsg.php on line 15
 [19-Jul-2016 03:31:13 UTC] PHP Stack trace:
 [19-Jul-2016 03:31:13 UTC] PHP   1. {main}() /home/ubuntu/workspace/project/park/seachmsg.php:0
+[19-Jul-2016 06:27:07 UTC] PHP Parse error:  syntax error, unexpected ')' in /home/ubuntu/workspace/project/park/index.php on line 324
+[19-Jul-2016 09:51:31 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ubuntu/workspace/project/park/login.php on line 138
