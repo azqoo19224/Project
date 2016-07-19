@@ -18,9 +18,6 @@
 		<meta name="generator" content="Bootply" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
 		<link href="css/styles.css" rel="stylesheet">
 
     <style type="text/css">
@@ -32,14 +29,6 @@
 <link rel="stylesheet" href="stylesheets/labs.css">
 <script src="javascripts/jquery.js"></script><script src="javascripts/jquery.raty.js"></script>
 <script src="javascripts/labs.js" type="text/javascript"></script>
-
-
-
-
-
-
-
-
 <!--<script type="text/javascript" src="jquery.js"></script>-->
 <script type="text/javascript">
 	  
@@ -174,10 +163,6 @@ function Change() {
 	 //  });
 	 //}
 
-
-
-
-	  
 	</script>
 
 	</head>
@@ -300,11 +285,7 @@ function Change() {
     
       <input type="text" size="55" style="font-size:16pt" name="txtUse" id="txtUse"/>
 
-
 </div>
-
-
-
 
 <div class="container">
   <div id="content1" class="col-sm-10 col-sm-offset-1" style="overflow: scroll;height:500px;"></div>
@@ -365,16 +346,9 @@ function Change() {
       <h1 id=mapName>Location</h1>
   </div>   
  
-
- 
   <div id="map-canvas"></div>
   <div class="row">
  
-
-   
-       
-  
-  
   <hr>
   
   <div class="col-sm-8"></div>
@@ -419,7 +393,7 @@ $.fn.raty.defaults.path = 'images';
 </script>
 
 		
-		<!--//--------------------------------------------------------MAP---------------------->
+		<!--//--------------------------------------------------------MAP----------------------------------->
 		<script type="text/javascript">
 		
 var map;
