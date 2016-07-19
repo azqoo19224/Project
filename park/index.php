@@ -1,3 +1,13 @@
+<?php 
+ session_start();
+ 
+  if(!isset($_SESSION["UserName"]))
+       $userName = "Guest";
+  else
+      $userName = $_SESSION["UserName"];
+  
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,15 +27,24 @@
       #map { height: 100%; }
     </style>
     
-    
+  <!--星星-->
+<link rel="stylesheet" href="stylesheet/jquery.raty.css">
+<link rel="stylesheet" href="stylesheets/labs.css">
+<script src="javascripts/jquery.js"></script><script src="javascripts/jquery.raty.js"></script>
+<script src="javascripts/labs.js" type="text/javascript"></script>
 
-	
 
-		<script type="text/javascript" src="jquery.js"></script>
-	  <script type="text/javascript">
+
+
+
+
+
+
+<!--<script type="text/javascript" src="jquery.js"></script>-->
+<script type="text/javascript">
 	  
 //-----------------------------------AREA CHANGE----------------------
-$(document).ready(initArea).ready(initTxtUse);
+$(document).ready(initArea).ready(initTxtUse).ready(seachID(1)).ready(seachmsg(1));
 //---------------------------letterArea-------------------------------
 function initArea() {
 
@@ -71,6 +90,7 @@ function Change() {
 //----------------------------ajax 抓資料-------------------
     function seachID(ID)
 	 {
+	   
 	    $.ajax({
 	        type:"GET",
 	        url:"seachID.php?ID="+ID,
@@ -90,30 +110,69 @@ function Change() {
 	          $("#address").text("地點: "+obj.address);
 	          $("#payex").text("收費: "+obj.payex);
 	          
+	          
 	          seachMap(obj.id);
 	          
 	        }
 	      });
+	      
 	 }
-	 function seachMap(id){
-	   
-	   $.ajax({
-	     type:"GET",
-	     url:"seachTotol.php?id="+id,
-	     dataType:"text",
-	     error:function(Xhr)
-	     {
-	       alert("error");
-	     },
-	     success:function(json){
-	       var obj=JSON.parse(json);
-	        $("#mapName").text(obj.id);
+	 
+	     function seachmsg(ID){
 	       
-	        initMap(obj.Xcod,obj.Ycod);
-	        
+	       $.ajax({
+	        type:"GET",
+	        url:"seachmsg.php?ID="+ID,
+	        dataType:"text",
+	        error:function(Xhr)
+	        {
+	          alert("error");
+	        },
+	        success:function(json1)
+	        {
+	          $("#msg").html(json1);
+	          
+	          
+	         // var msg=JSON.parse(json1);
+	         // if(msg != null){
+	         
+	         //for(i=0;i<msg.length;i++)
+	         // $("#msg").html(json1);
+          // }else{
+          //   $("#msg").empty();
+          // }
+	          
+	          
+	        }
+	      });
 	     }
-	   });
-	 }
+	 
+	 /////評論顯示
+	function Show(){
+  
+  $("#ShowM").toggle();
+ 
+};
+	 
+	 //function seachMap(id){
+	   
+	 //  $.ajax({
+	 //    type:"GET",
+	 //    url:"seachTotol.php?id="+id,
+	 //    dataType:"text",
+	 //    error:function(Xhr)
+	 //    {
+	 //      alert("error");
+	 //    },
+	 //    success:function(json){
+	 //      var obj=JSON.parse(json);
+	 //       $("#mapName").text(obj.id);
+	       
+	 //       initMap(obj.Xcod,obj.Ycod);
+	        
+	 //    }
+	 //  });
+	 //}
 
 
 
@@ -202,8 +261,13 @@ function Change() {
             </ul>
             
           </li>
-          <li><a href="#Map">sign in</a></li>
-       
+          
+          <?php
+          if($userName == "Guest"){?>
+              <li><a href="login.php">login</a></li>
+          <?php }else {?>
+            <li><a href="login.php?logout=1">logout</a></li>
+           <?php } ?>
         </ul>
       </div><!--/.nav-collapse -->
     </div><!--/.container -->
@@ -271,7 +335,20 @@ function Change() {
       <p id="address"></p> 
       <p id="payex"></p></p>  
       <p id="summary"></p> 
-        </h4>
+  
+     </h4>
+     <hr>
+    <div><div>
+      <A id="ShowMsg" taregt="_self"  href="#Place" onclick="Show()">評論</A>
+      <A id="Msg" taregt="_self"  href="#message.php">留言</A>
+    </div>
+    <div id = "ShowM" style = "display:none">
+    <p id="msg">123</p>
+    <div id="score">
+    </div>  
+    </div>
+    </div>
+     
       <hr>
       
       <div class="divider"></div>
@@ -287,10 +364,13 @@ function Change() {
   <div class="col-sm-10 col-sm-offset-1">
       <h1 id=mapName>Location</h1>
   </div>   
- <div id="map-canvas"></div>
-  
-<div class="row">
-  
+ 
+
+ 
+  <div id="map-canvas"></div>
+  <div class="row">
+ 
+
    
        
   
@@ -319,10 +399,25 @@ function Change() {
 </div><!--/wrap-->
 
 	<!-- script references -->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+		<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>-->
 		<script src="js/bootstrap.min.js"></script>
 		<script src="http://maps.googleapis.com/maps/api/js?sensor=false&extension=.js&output=embed"></script>
 		<script src="js/scripts.js"></script>
+		
+		<!---------------------------------------star-------------------------------------------->
+		<script>
+
+$.fn.raty.defaults.path = 'images';
+
+// $('#default').raty();
+
+// function Star(a,i){
+
+// $("#\i").raty({ readOnly: true, score: a });
+   
+// }
+</script>
+
 		
 		<!--//--------------------------------------------------------MAP---------------------->
 		<script type="text/javascript">
@@ -344,20 +439,20 @@ function GetAddressMarker()
 address = $("#address_val").val();
 geocoder = new google.maps.Geocoder();
 geocoder.geocode(
- {
+{
   'address':address
- },function (results,status) 
- {
- if(status==google.maps.GeocoderStatus.OK) 
- {
+},function (results,status) 
+{
+if(status==google.maps.GeocoderStatus.OK) 
+{
     //console.log(results[0].geometry.location);
     LatLng = results[0].geometry.location;
     map.setCenter(LatLng);  //將地圖中心定位到查詢結果
     marker.setPosition(LatLng); //將標記點定位到查詢結果
     marker.setTitle(address); //重新設定標記點的title
     $("#SearchLatLng").html("【您輸入的地址位置】緯度：" + LatLng.lat() + "經度：" + LatLng.lng());
- }
- }
+}
+}
 ); 
 }
  
@@ -371,9 +466,9 @@ $(document).ready(function() {
     </script>
     
 		
-		 <script async defer
-         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvv993Le3vmuTkcgSiz_wG5cLmucOAdbs&callback=initMap" async defer></script>
-    </script>
+// 		 <script async defer
+//         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvv993Le3vmuTkcgSiz_wG5cLmucOAdbs&callback=initMap" async defer></script>
+//     </script>
 		
 		
 		
