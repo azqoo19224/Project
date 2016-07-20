@@ -5,9 +5,7 @@ session_start();
 require ("config.php");
 
 
-$insetrMember ="INSERT INTO `Member` (name, password) VALUES ('{$_POST["txtmemberName"]}','{$_POST["txtmemberPassword"]}')";
-
-
+$insetrMember ="INSERT INTO `Member` (name, password) VALUES ('{$_POST['txtmemberName']}','{$_POST['txtmemberPassword']}')";
 //搜尋會員NAME
 $searchMember ="select name,password from Member";
 $resultMember = mysql_query ( $searchMember, $link );
@@ -16,7 +14,7 @@ $resultMember = mysql_query ( $searchMember, $link );
 if (isset($_POST["btnROK"]))
 {
   
-$resultID = mysql_query ($insetrMember, $link );
+   mysql_query ($insetrMember, $link );
 
 		header("Location: login.php");
 		exit();
@@ -107,7 +105,7 @@ if(!$("#txtmemberName").val()){
           <tr>
             <td colspan="2" align="center" bgcolor="#CCCCCC">
              
-              <input type="submit" name="btnROK" id="btnROK" value="登入" onclick="location.href='login.php'" />
+              <input type="submit" name="btnROK" id="btnROK" value="註冊" onclick="location.href='login.php'" />
               <input type="reset" name="btnReset" id="btnReset" value="重設" />
               <input type="button" name="btnCancel" id="btnCancel" onclick="location.href='login.php'"  value="取消" />
              

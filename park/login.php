@@ -7,11 +7,27 @@ $searchMember ="select name,password from Member";
 $resultMember = mysql_query ( $searchMember, $link );
 
 // 跳轉評論SESSION
-if (isset($_GET["login"]))
-      {
-    	    $_SESSION["logi"] = $_GET["login"];
 
-      }
+
+if(isset($_GET["message"])){
+  if(isset($_SESSION['UserName'])){
+   header("Location: message.php");
+   exit();
+  }
+}
+
+
+if (isset($_GET["message"]))
+{  $_SESSION["logi"]=$_GET["message"];
+//     	   //$Surl ='Location: message.php';
+    $Lurl ="onclick=\"location.href='message.php'\"";
+}else{
+    $Lurl ="onclick=\"location.href='index.php'\"";
+    // $Surl ='Location: index.php';
+}
+
+ 
+ 
 
 ///移除登出SESSION
       if (isset($_GET["logout"]))
@@ -28,25 +44,31 @@ if (isset($_GET["login"]))
       if (isset($_POST["btnOK"]))
       {
           while($resultem= mysql_fetch_array($resultMember)){
+            if($_POST['txtUserName']!=0 && $_POST['txtPassword']!=0 ){
           if($resultem['name'] == $_POST['txtUserName'] && $resultem['password'] == $_POST['txtPassword'])
           {
   	         $_SESSION["UserName"] = $_POST["txtUserName"];
-            if($_SESSION['logi'] = 1)
-  	              {
+            if(isset($_SESSION["logi"]))
+  	         {
   	                
-  	                header("Location: message.php");
-  	                exit();
-  	               }
+  	                  header("Location: message.php");
+  	                  exit();
+  	         }
   	         else
   	         {  
-  	                  header("Location:index.php");
+  	                   header("Location: message.php");
   	  	  	          exit();
   	         }
-
+          }
     
         }
-        }echo error;
-      }
+        }
+            
+  	                header("Location: login.php");
+  	                exit();
+  	
+        }
+      
   
 ?>
 
@@ -83,9 +105,10 @@ if (isset($_GET["login"]))
         <tr>
           <td colspan="2" align="center" bgcolor="#CCCCCC">
             
-            <input type="submit" name="btnOK" id="btnOK" value="登入"/>
+            
         
-            <input type="reset"  name="btnReset" id="btnReset" value="重設" />
+            <input type="submit" name="btnOK" id="btnOK" value="登入" <?php echo $Lurl;?>/>
+            <input type="reset" name="btnReset" id="btnReset" value="重設" />
             <input type="button" name="btnHome" id="btnHome" onclick="location.href='index.php'" value="回首頁" /> 
             <input type="button" name="btnRegistered" id="btnRegistered" onclick="location.href='registered.php'"  value="註冊" />
         

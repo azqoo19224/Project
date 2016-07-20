@@ -1,20 +1,29 @@
 <?php 
 session_start(); 
-// echo  $_SESSION["id"];
-
-
+require ("config.php");
 unset($_SESSION["logi"]);
+ unset($_SESSION['result']);
+$searchMember="select name from Message where id = '{$_SESSION['id']}' and name ='{$_SESSION['UserName']}'";
+$haveM=mysql_fetch_array(mysql_query($searchMember,$link));
 
-echo $_SESSION["logi"];
+if($haveM){
+$insetrMember ="UPDATE `Message` SET `msg` = '{$_POST['message']}' , `star` ='{$_POST['rdoPet']}' WHERE `name` = '{$_SESSION['UserName']}'";
+}else{
+$insetrMember ="INSERT INTO `Message` (id, msg, name, star) VALUES ('{$_SESSION['id']}','{$_POST['message']}','{$_SESSION['UserName']}','{$_POST['rdoPet']}')";
+}
 
 
+$name=($haveM!=null)? "修改評論": "評論"; 
 
+if(isset($_POST["btnOK"])){
+	
+	
+	mysql_query( $insetrMember, $link);
+	
+	 header("Location: index.php");
 
-
-
-
-
-
+     exit();
+}
 
 
 
@@ -35,35 +44,34 @@ echo $_SESSION["logi"];
 <body>
 	<div data-role="page">
 		<div data-role="content">
-			<form method="post" action="http://exec.hostzi.com/echo.php">
+			<form method="post" action="message.php">
                         <h1>HELLO <?php echo  $_SESSION["login"].$_SESSION["UserName"]?></h1>
+                        <h2><?php echo $name ?></h2>
                         <input type="text" size = "54" name="message" id="message"/>
-                        
-                        
-                        
-                        
-   <!--         <fieldset data-role="controlgroup" data-type="horizontal">-->
-			<!--		<legend>Choose a pet:</legend>-->
-			<!--     	<input type="radio" name="rdoPet" id="rdoPet0" value="1" checked="checked" />-->
-			<!--     	<label for="rdoPet0">一顆星</label>-->
+
+            			<fieldset data-role="controlgroup" data-type="horizontal">
+            				
+							<legend>星數:</legend>
+			     			<input type="radio" name="rdoPet" id="rdoPet0" value="1" checked="checked" />
+			     			<label for="rdoPet0">一顆星</label>
 			
-			<!--     	<input type="radio" name="rdoPet" id="rdoPet1" value="2"  />-->
-			<!--     	<label for="rdoPet1">兩顆星</label>-->
+			     			<input type="radio" name="rdoPet" id="rdoPet1" value="2"  />
+					     	<label for="rdoPet1">兩顆星</label>
+					
+			     			<input type="radio" name="rdoPet" id="rdoPet2" value="3"  />
+			     			<label for="rdoPet2">三顆星</label>
 			
-			<!--     	<input type="radio" name="rdoPet" id="rdoPet2" value="3"  />-->
-			<!--     	<label for="rdoPet2">三顆星</label>-->
-			
-			<!--     	<input type="radio" name="rdoPet" id="rdoPet3" value="4"  />-->
-			<!--     	<label for="rdoPet3">四顆星</label>-->
+					     	<input type="radio" name="rdoPet" id="rdoPet3" value="4"  />
+			    		 	<label for="rdoPet3">四顆星</label>
 			     	
-			<!--     	<input type="radio" name="rdoPet" id="rdoPet4" value="5"  />-->
-			<!--     	<label for="rdoPet3">五顆星</label>-->
-			<!--</fieldset>-->
-		                               
+			     			<input type="radio" name="rdoPet" id="rdoPet4" value="5"  />
+			     			<label for="rdoPet4">五顆星</label>
+			</fieldset>
+		                               <!--onclick="location.href='index.php?#msg'"-->
 			
 			<div class="ui-grid-a">
-				<div class="ui-block-a"><input type="submit" name="btnOK" value="OK" /></div>
-				<div class="ui-block-b"><input type="submit" name="btnCancel" value="Cancel" /></div>
+				<div class="ui-block-a"><input type="submit" name="btnOK" value="OK" onclick="location.href='index.php#Place'" /></div>
+				<div class="ui-block-b"><input type="button" name="btnCancel" value="取消" onclick="location.href='index.php'" /></div>
 			</div>
 
 			</form>

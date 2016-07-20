@@ -1,11 +1,21 @@
 <?php 
  session_start();
  unset($_SESSION["logi"]);
+
+ 
+echo $_SESSION['result'];
   if(!isset($_SESSION["UserName"]))
        $userName = "Guest";
   else
       $userName = $_SESSION["UserName"];
-  
+      
+  // if(!isset($_SESSION["result"]))
+  //     $userResult = "result";
+  // else
+  //     $userResult = $_SESSION["result"];
+      
+      
+    
 ?>
 
 
@@ -32,13 +42,35 @@
 <!--<script type="text/javascript" src="jquery.js"></script>-->
 <script type="text/javascript">
 	  
+
 //-----------------------------------AREA CHANGE----------------------
-$(document).ready(initArea).ready(initTxtUse).ready(seachID(1)).ready(seachmsg(1));
+$(document).ready(initArea).ready(initTxtUse).ready(fristReady);
 //---------------------------letterArea-------------------------------
+
+function fristReady(){
+  $.ajax({
+	        type:"GET",
+	        url:"seachTotol.php",
+	        dataType:"text",
+	        error:function(Xhr)
+	        {
+	          alert("error");
+	        },
+	        success:function(data)
+	        { 
+	          if(data==0){ data=1;}
+	          seachID(data);
+	          seachmsg(data);
+	         
+	        }
+	      });
+}
+
+
 function initArea() {
 
 Change();
-	      
+
 $("#Area").on("change",function(){
 		Change()});
 
@@ -65,8 +97,9 @@ function Change() {
 	          alert("error");
 	        },
 	        success:function(data)
-	        {
-	          $("#content1").html(data);
+	        { 
+
+	       $("#content1").html(data);
 	          
 	        }
 	      });
@@ -101,6 +134,12 @@ function Change() {
 	          $("#payex").text("收費: "+obj.payex);
 	          
 	          
+	        
+	         if(obj.o=='0')
+	         $("#Msg").text("我要評論")
+	         else
+	         $("#Msg").text("我要修改評論");
+	          
 	          seachMap(obj.id);
 	          
 	        }
@@ -121,18 +160,7 @@ function Change() {
 	        success:function(json1)
 	        {
 	          $("#msg").html(json1);
-	          
-	          
-	         // var msg=JSON.parse(json1);
-	         // if(msg != null){
-	         
-	         //for(i=0;i<msg.length;i++)
-	         // $("#msg").html(json1);
-          // }else{
-          //   $("#msg").empty();
-          // }
-	          
-	          
+
 	        }
 	      });
 	     }
@@ -186,7 +214,7 @@ function Change() {
       </ol>
       <div class="carousel-inner">
         <div class="item active">
-          <img src="img/car5.jpg">
+          <img src="img/car88.jpg">
           <div class="container">
             <div class="carousel-caption">
               <h2>停車場車位查詢系統</h2>
@@ -195,16 +223,16 @@ function Change() {
           </div>
         </div>
         <div class="item">
-          <img src="img/car6.jpg">
+          <img src="img/tt.jpg">
           <div class="container">
             <div class="carousel-caption">
-              <h2>停車場車位查詢系統</h2>
+              <h1>停車場車位查詢系統</h1>
               <p></p>
             </div>
           </div>
         </div>
         <div class="item">
-          <img src="img/car2.jpg">
+          <img src="img/t6.jpg">
           <div class="container">
             <div class="carousel-caption">
               <h2>停車場車位查詢系統</h2>
@@ -320,14 +348,13 @@ function Change() {
   
      </h4>
      <hr>
-    <div><div>
+     
+    <div>
+      <div>
       <A id="ShowMsg" taregt="_self"  href="#Place" onclick="Show()">評論</A>
-      <A id="Msg" taregt="_self" <?php if(isset($_SESSION["UserName"])){  ?>  
-                                            href="message.php"  
-                                  <?php }else{  ?>
-                                            href="login.php?login=1" 
-                                  <?php } ?>
-                                            >我要評論</A>
+      
+      <A id="Msg" taregt="_self" href="login.php?message=1"></A>
+                                       
       
       
       
