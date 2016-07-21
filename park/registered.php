@@ -1,15 +1,10 @@
 <?php 
 
 session_start();
-
+require_once("seach.php");
 require ("config.php");
 
-
-$insetrMember ="INSERT INTO `Member` (name, password) VALUES ('{$_POST['txtmemberName']}','{$_POST['txtmemberPassword']}')";
-//搜尋會員NAME
-$searchMember ="select name,password from Member";
-$resultMember = mysql_query ( $searchMember, $link );
-
+$insetrMember=seach::registered();
 
 if (isset($_POST["btnROK"]))
 {
@@ -25,7 +20,7 @@ if (isset($_POST["btnROK"]))
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
- <html>
+<html>
 
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -35,11 +30,9 @@ if (isset($_POST["btnROK"]))
 	      href="jquery.mobile-1.3.2/jquery.mobile-1.3.2.min.css" />
       <script src="jquery-1.9.1.min.js"></script>
       <script src="jquery.mobile-1.3.2/jquery.mobile-1.3.2.min.js"></script>
-      
-     
-     
-		<!--<script type="text/javascript" src="jquery.js"></script>-->
+   		<!--<script type="text/javascript" src="jquery.js"></script>-->
 	  <script type="text/javascript">
+	  
 $(document).ready(inputTXT);
 //---------------------------判斷帳號是否重複-------------------------------
 function inputTXT() {
@@ -54,9 +47,7 @@ if(!$("#txtmemberName").val()){
 
 });
 }
-
 	  function memberName(){
-	 
 	    var s = $("#txtmemberName").val();
 	    $.ajax({
 	      type:"GET",
@@ -67,9 +58,7 @@ if(!$("#txtmemberName").val()){
 	      },
 	      success:function(data)
 	        {
-	      
 	          $("#txtN").text(data);
-	          
 	        }
 	      
 	    });
@@ -77,8 +66,8 @@ if(!$("#txtmemberName").val()){
 	  
 	  
 	  </script>
-    </head>
-    <body>
+</head>
+<body>
       <div data-role="page">
 	    	<div data-role="content">
       <form id="form1" style="font-family:DFKai-sb;" name="form1" method="post" action="registered.php">
@@ -115,5 +104,5 @@ if(!$("#txtmemberName").val()){
       </form>
       </div>
       </div>
-      </body>
-        </html>
+</body>
+</html>

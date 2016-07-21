@@ -1,10 +1,9 @@
+
 <?php
-require ("config.php");
-session_start();
+require_once("seach.php");
 
+$resultID = Seach::letterArea($link);
 
-$searchletter ="select id, area, name, summary, address, tel, payex from Park where area like '%{$_GET['letter']}%' and name like '%{$_GET['txtUse']}%'";
-$resultID = mysql_query ( $searchletter, $link );
 
 while ($row = mysql_fetch_array($resultID)){
     

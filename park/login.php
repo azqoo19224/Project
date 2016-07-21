@@ -1,30 +1,21 @@
 <?php
 
-require ("config.php");
-session_start();
+require_once("seach.php");
+$resultMember =Seach::login($link);
 
-$searchMember ="select name,password from Member";
-$resultMember = mysql_query ( $searchMember, $link );
-
-// 跳轉評論SESSION
-
-
-if(isset($_GET["message"])){
-  if(isset($_SESSION['UserName'])){
-   header("Location: message.php");
-   exit();
-  }
-}
-
-
-if (isset($_GET["message"]))
-{  $_SESSION["logi"]=$_GET["message"];
-//     	   //$Surl ='Location: message.php';
-    $Lurl ="onclick=\"location.href='message.php'\"";
-}else{
-    $Lurl ="onclick=\"location.href='index.php'\"";
-    // $Surl ='Location: index.php';
-}
+// 跳轉評論
+    if(isset($_GET["message"])){
+      if(isset($_SESSION['UserName'])){
+      header("Location: message.php");
+      exit();
+      }
+      $_SESSION["logi"]=$_GET["message"];
+  	   //$Surl ='Location: message.php';
+      $Lurl ="onclick=\"location.href='message.php'\"";
+      }else{
+        $Lurl ="onclick=\"location.href='index.php'\"";
+      // $Surl ='Location: index.php';
+      }
 
  
  
@@ -39,8 +30,7 @@ if (isset($_GET["message"]))
     
 
 
-//   //btnOK
-
+////btnOK
       if (isset($_POST["btnOK"]))
       {
           while($resultem= mysql_fetch_array($resultMember)){
@@ -50,22 +40,19 @@ if (isset($_GET["message"]))
   	         $_SESSION["UserName"] = $_POST["txtUserName"];
             if(isset($_SESSION["logi"]))
   	         {
-  	                
   	                  header("Location: message.php");
   	                  exit();
   	         }
   	         else
   	         {  
-  	                   header("Location: message.php");
+  	                  header("Location: message.php");
   	  	  	          exit();
   	         }
           }
-    
         }
         }
-            
-  	                header("Location: login.php");
-  	                exit();
+  	                 // header("Location: login.php");
+  	                 // exit();
   	
         }
       

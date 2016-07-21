@@ -1,16 +1,11 @@
 <?php 
-session_start(); 
-require ("config.php");
-unset($_SESSION["logi"]);
- unset($_SESSION['result']);
-$searchMember="select name from Message where id = '{$_SESSION['id']}' and name ='{$_SESSION['UserName']}'";
-$haveM=mysql_fetch_array(mysql_query($searchMember,$link));
 
-if($haveM){
-$insetrMember ="UPDATE `Message` SET `msg` = '{$_POST['message']}' , `star` ='{$_POST['rdoPet']}' WHERE `name` = '{$_SESSION['UserName']}'";
-}else{
-$insetrMember ="INSERT INTO `Message` (id, msg, name, star) VALUES ('{$_SESSION['id']}','{$_POST['message']}','{$_SESSION['UserName']}','{$_POST['rdoPet']}')";
-}
+require_once("seach.php");
+
+unset($_SESSION["logi"]);
+unset($_SESSION['result']);
+
+$insetrMember=Seach::message($link);
 
 
 $name=($haveM!=null)? "修改評論": "評論"; 

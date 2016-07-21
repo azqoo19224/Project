@@ -1,23 +1,22 @@
 <?php 
  session_start();
  unset($_SESSION["logi"]);
-
  
-echo $_SESSION['result'];
-  if(!isset($_SESSION["UserName"]))
+  if(!isset($_SESSION["UserName"])){
        $userName = "Guest";
-  else
-      $userName = $_SESSION["UserName"];
-      
-  // if(!isset($_SESSION["result"]))
-  //     $userResult = "result";
-  // else
-  //     $userResult = $_SESSION["result"];
-      
-      
+      $userNmaeLogin ="<li><a href='login.php'>".$userName."_login</a></li>";
     
-?>
+  }
+  else{
+    
+      $userName = $_SESSION["UserName"];
+      $userNmaeLogin ="<li><a href='login.php?logout=1'>".$userName."_logout</a></li>";
+    
+  }
+    
+    
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,7 +49,7 @@ $(document).ready(initArea).ready(initTxtUse).ready(fristReady);
 function fristReady(){
   $.ajax({
 	        type:"GET",
-	        url:"seachTotol.php",
+	        url:"SessionID.php",
 	        dataType:"text",
 	        error:function(Xhr)
 	        {
@@ -76,14 +75,14 @@ $("#Area").on("change",function(){
 
 }
 
-//--------------------------------------changetxt-----------------------
+//--------------------------------------changetxt-----------------------------
 function initTxtUse() {
 	      
 $("#txtUse").on("change",function(){
 		Change()});
 
 }
-//-------------------------change--------------------------------------
+//--------------------------------------change---------------------------------
 function Change() {
 
 	var s = $("#Area option:selected").val();
@@ -106,10 +105,7 @@ function Change() {
 }
 
 
-
-
-
-//----------------------------ajax 抓資料-------------------
+//----------------------------顯示park資料-------------------
     function seachID(ID)
 	 {
 	 
@@ -127,6 +123,7 @@ function Change() {
 	          
 	          var obj=JSON.parse(json);
 	          $("#nameid").text(obj.name);
+	          $("#mapName").text(obj.name);
 	          $("#area").text("地區: "+obj.area);
 	          $("#summary").text("規格: "+obj.summary);
 	          $("#tel").text("電話: "+obj.tel);
@@ -146,7 +143,7 @@ function Change() {
 	      });
 	      
 	 }
-	 
+//------------------------------------顯示評論-----------------------------	 
 	     function seachmsg(ID){
 	     
 	       $.ajax({
@@ -165,9 +162,8 @@ function Change() {
 	      });
 	     }
 	 
-	 /////評論顯示
+//-----------------------------------評論顯示---------------------------------
 	function Show(){
-  
   $("#ShowM").toggle();
  
 };
@@ -276,12 +272,7 @@ function Change() {
             
           </li>
           
-          <?php
-          if($userName == "Guest"){?>
-              <li><a href="login.php">login</a></li>
-          <?php }else {?>
-            <li><a href="login.php?logout=1">logout</a></li>
-           <?php } ?>
+          <?php echo $userNmaeLogin; ?>
         </ul>
       </div><!--/.nav-collapse -->
     </div><!--/.container -->
@@ -350,16 +341,11 @@ function Change() {
      <hr>
      
     <div>
-      <div>
+      <div><h3>
       <A id="ShowMsg" taregt="_self"  href="#Place" onclick="Show()">評論</A>
       
       <A id="Msg" taregt="_self" href="login.php?message=1"></A>
-                                       
-      
-      
-      
-      
-      
+      </h3>                              
     </div>
     <div id = "ShowM" data-theme="a" style = "display:none">
     <p id="msg">123</p>
@@ -381,7 +367,9 @@ function Change() {
   <div class="col-sm-6 col-sm-offset-3 text-center"><h2 style="padding:20px;background-color:rgba(5,5,5,.8)">Map</h2></div>
 </section>
   <div class="col-sm-10 col-sm-offset-1">
-      <h1 id=mapName>Location</h1>
+      <hr>
+      <h1 id=mapName></h1>
+      <hr>
   </div>   
  
   <div id="map-canvas"></div>
